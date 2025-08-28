@@ -1,0 +1,414 @@
+document.getElementsByTagName("html")[0].innerHTML = "<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackers Anonymous | Find Me If You Can</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;500;700&display=swap');
+        
+        :root {
+            --neon-green: #0f0;
+            --dark-bg: #0a0a10;
+            --darker-bg: #05050a;
+            --container-bg: rgba(0, 10, 20, 0.8);
+            --text-color: #00ffea;
+            --terminal-text: #0f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            font-family: 'Orbitron', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Glitch effect animated background */
+        .glitch-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .glitch-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 228, 255, 0.05);
+            transform-origin: center;
+            opacity: 0;
+            animation-name: glitch-fade;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-duration: 2s;
+        }
+        
+        .glitch-line:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .glitch-line:nth-child(2) {
+            animation-delay: 0.5s;
+            background-color: rgba(0, 255, 0, 0.1);
+        }
+        
+        .glitch-line:nth-child(3) {
+            animation-delay: 1s;
+            background-color: rgba(15, 248, 255, 0.07);
+        }
+        
+        @keyframes glitch-fade {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(0);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateY(-5px);
+            }
+            85%, 95% {
+                opacity: 0;
+            }
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: var(--neon-green);
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Terminal-like border */
+        .terminal-border {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green), inset 0 0 5px var(--neon-green);
+            z-index: 100;
+            pointer-events: none;
+        }
+        
+        /* Main content container */
+        .container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            padding: 40px;
+            background-color: var(--container-bg);
+            border: 1px solid var(--neon-green);
+            border-radius: 5px;
+            box-shadow: 0 0 20px var(--darker-bg);
+            max-width: 500px;
+        }
+        
+        .logo-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid var(--neon-green);
+            animation: pulse 3s infinite;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        .logo {
+            width: 100%;
+            height: auto;
+        }
+        
+        /* Scrolling text effect */
+        .message {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            overflow: hidden;
+            text-overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            animation: scrollText 15s linear forwards;
+        }
+        
+        @keyframes scrollText {
+            0% { transform: translateY(100%); opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { transform: translateY(-100%); opacity: 0; }
+        }
+        
+        /* Terminal typing effect */
+        .terminal {
+            background-color: rgba(0, 10, 20, 0.9);
+            border: 1px solid var(--neon-green);
+            color: var(--terminal-text);
+            padding: 15px;
+            font-size: 0.9rem;
+            height: 120px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+        }
+        
+        .terminal-content {
+            line-height: 1.5;
+        }
+        
+        .terminal-text {
+            opacity: 0;
+            animation: typeEffect 4s steps(30, end) forwards;
+        }
+        
+        @keyframes typeEffect {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Holographic particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: rgba(15, 255, 0, 0.7);
+            border-radius: 50%;
+            animation: particleMove 5s linear infinite;
+        }
+        
+        @keyframes particleMove {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            14% {
+                opacity: 1;
+            }
+            85% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* Access key highlighting */
+        .access-key {
+            display: inline-block;
+            font-size: 2rem;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: rgba(15, 222, 0, 0.2);
+            border: 1px solid var(--neon-green);
+            animation: keyBlink 2s infinite;
+        }
+        
+        @keyframes keyBlink {
+            0%, 100% { box-shadow: 0 0 5px var(--neon-green); }
+            50% { box-shadow: 0 0 15px var(--neon-green); }
+        }
+        
+        /* Optional: Background matrix code effect */
+        .matrix-code {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 150%;
+            height: 150%;
+            z-index: -1;
+            opacity: 0.3;
+            background: linear-gradient(transparent 95%, var(--darker-bg) 95%);
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+        
+        /* Modified Orbitron font for different elements */
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            color: var(--text-color);
+            text-shadow: 0 0 5px var(--neon-green);
+        }
+        
+        .footer {
+            margin-top: 20px;
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+        
+        /* Media queries for mobile */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .message {
+                font-size: 1.3rem;
+            }
+            
+            .terminal {
+                height: 80px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="glitch-background">
+        <div class="glitch-line"></div>
+        <div class="glitch-line"></div>
+        <div class="glitch-line"></div>
+    </div>
+
+    <!-- Terminal border -->
+    <div class="terminal-border"></div>
+
+    <!-- Matrix-style background effect (optional) -->
+    <div class="matrix-code"></div>
+
+    <!-- Holographic particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Main content -->
+    <div class="container">
+        <div class="logo-container">
+            <img src="logo.jpg" alt="Hacker Logo" class="logo" id="logo">
+        </div>
+        
+        <h1>ACCESS DENIED</h1>
+        
+        <div class="message">Doing Well! Find me if u can</div>
+        
+        <div class="terminal">
+            <div class="terminal-content">
+                <span class="terminal-text">Initializing security protocols...</span><br>
+                <span class="terminal-text">Analyzing network connections...</span><br>
+                <span class="terminal-text">Establishing secure communication...</span><br>
+                <span class="terminal-text">Access granted only by invitation.</span><span class="cursor"></span>
+            </div>
+        </div>
+        
+        <div class="access-key">CONFIRM</div>
+        
+        <div class="footer">© 2023 Hackers Anonymous - All systems protected</div>
+    </div>
+
+    <!-- JavaScript for background particles -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position, duration, etc.
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const duration = Math.random() * 8 + 5;
+                const delay = Math.random() * 5;
+                const size = Math.random() * 3 + 1;
+                const startX = Math.random() * 50 - 25;
+                const startY = Math.random() * 50 - 25;
+                
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.boxShadow = `0 0 ${size*2}px var(--neon-green)`;
+                particle.style.transform = `translate(${startX}px, ${startY}px)`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Option to add keyboard keys as particles (enhanced version)
+            document.addEventListener('keydown', (event) => {
+                createKeyParticle(event.key);
+            });
+            
+            function createKeyParticle(key) {
+                const keyParticles = 5;
+                const targetX = event.clientX || (Math.random() * window.innerWidth);
+                const targetY = event.clientY || (Math.random() * window.innerHeight);
+                
+                for (let i = 0; i < keyParticles; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    particle.innerHTML = key;
+                    particle.style.fontSize = '8px';
+                    particle.style.right = '0';
+                    particle.style.top = 'auto';
+                    
+                    const posX = event ? event.clientX + (Math.random() * 100 - 50) : Math.random() * window.innerWidth;
+                    const posY = event ? event.clientY + (Math.random() * 100 - 50) : Math.random() * window.innerHeight;
+                    const duration = Math.random() * 3 + 1;
+                    const startX = Math.random() * 10 - 5;
+                    const startY = Math.random() * 10 - 5;
+                    
+                    particle.style.left = `${posX}px`;
+                    particle.style.top = `${posY}px`;
+                    particle.style.animationDuration = `${duration}s`;
+                    particle.style.opacity = '0.9';
+                    particle.style.transform = `translate(${startX}px, ${startY}px)`;
+                    particle.style.pointerEvents = 'none';
+                    
+                    document.body.appendChild(particle);
+                    
+                    // Remove particle after animation completes
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, duration * 1000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>";
