@@ -1,14 +1,29 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
 import os
 
 app = Flask(__name__)
-app.secret_key = 'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2'  # Change this to a secure random key
+app.secret_key = 'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2'
 
 # Configuration
 HTML_FILE = 'ind.html'
 ADMIN_USERNAME = 'admin'
-ADMIN_PASSWORD = 'phonk@root'  # Change this to a secure password
+ADMIN_PASSWORD = 'phonk@root'
 
+# Serve main website files
+@app.route('/')
+def serve_index():
+    return send_from_directory('.', 'ind.html')
+
+@app.route('/about.me')
+def serve_about_me():
+    return send_from_directory('.', 'about.me')
+
+# Serve any other static files (CSS, JS, images, etc.)
+@app.route('/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('.', filename)
+
+# Admin routes (unchanged)
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
